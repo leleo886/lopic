@@ -1,0 +1,50 @@
+# Server Configuration
+server:
+  port: 6060
+  mode: release   # debug, release
+  static_path: /uploads/file
+  upload_dir: data/uploads
+  # allowOrigins:
+  #   - http://localhost:5173
+
+# Database Configuration
+database:
+  type: sqlite
+  dbname: data/lopic.db
+# OR
+# database:
+#   type: mysql
+#   host: localhost
+#   port: 3306
+#   user: your-username
+#   password: your-password
+#   dbname: lopic
+#   charset: utf8mb4
+#   parseTime: true
+#   loc: Local
+
+# JWT Authentication, secret will be generated randomly if not provided
+jwt:
+  secret: your-secret-key
+  expire: 259200
+  refresh_token_expire: 432000
+  issuer: lopic
+  token_secret: your-token-secret-key
+
+# Logging Configuration
+log:
+  level: info                
+  output_path: data/logs/app.log    
+  max_size: 100                # single log file max size（MB）
+  max_backups: 7               # max number of old log files to keep
+  max_age: 30                  # max number of days to keep old log files
+  compress: true               # compress old log files
+  console_output: false        # whether to output to console
+
+# Swagger Documentation
+swagger:
+  enabled: false
+  path: /swagger
+  title: Lopic API
+  version: 1.0.0
+

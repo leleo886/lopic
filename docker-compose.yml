@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  lopic:
+    image: leleo886/lopic:latest
+    ports:
+      - "6060:6060"
+    volumes:
+      - lopic_data:/app/data
+    environment:
+      - GIN_MODE=release
+    restart: unless-stopped
+    command: ["./api", "--serve", "--config=docker_config.yaml"]
+    # If using MySQL, uncomment the following depends_on and docker-config.yaml
+    # depends_on:
+    #   - mysql
+
+  # mysql:
+  #   image: mysql:8.0
+  #   ports:
+  #     - "3306:3306"
+  #   environment:
+  #     MYSQL_ROOT_PASSWORD: your-root-password
+  #     MYSQL_DATABASE: lopic
+  #     MYSQL_USER: your-username
+  #     MYSQL_PASSWORD: your-password
+  #   volumes:
+  #     - mysql_data:/var/lib/mysql
+  #   restart: unless-stopped
+
+# volumes:
+#   mysql_data:
+
+volumes:
+  lopic_data:

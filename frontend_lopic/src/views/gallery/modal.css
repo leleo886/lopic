@@ -1,0 +1,305 @@
+/* ===== 全屏图片查看模态框 ===== */
+.fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000; /* 大于底部搜索栏的z-index: 9999 */
+  backdrop-filter: blur(10px);
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  padding: 40px;
+  gap: 30px;
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  font-size: 2rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1001;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.1);
+}
+
+.modal-image-container {
+  position: relative;
+  width: 80%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 20px;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* 图片加载动画 */
+.image-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 50%;
+  padding: 20px;
+  backdrop-filter: blur(10px);
+}
+
+.loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top: 4px solid var(--gallery-accent);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.modal-image-container:active {
+  cursor: grabbing;
+}
+
+.modal-image {
+  border-radius: 20px;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  user-select: none;
+  transition: opacity 0.3s ease;
+}
+
+.modal-info {
+  width: 20%;
+  height: 100%;
+  color: white;
+  padding: 30px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  overflow-y: auto;
+}
+
+.modal-info h2 {
+  font-family: var(--font-heading);
+  color: white;
+  font-size: 1.5rem;
+  margin: 0;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+/* ===== 模态框信息栏滚动条样式 ===== */
+.modal-info::-webkit-scrollbar {
+  display: block;
+  width: 6px;
+}
+
+.modal-info::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 3px;
+}
+
+.modal-info::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 3px;
+}
+
+.modal-info::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.modal-dimensions {
+  font-size: 1rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+.modal-file-size,
+.modal-mime-type {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.7;
+}
+
+.modal-tags {
+  margin-top: 20px;
+}
+
+.modal-tags h3 {
+  font-family: var(--font-heading);
+  color: white;
+  font-size: 1.1rem;
+  margin: 0 0 12px 0;
+  font-weight: 500;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tag {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
+}
+
+.tag:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.download-button {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  margin-top: 20px;
+}
+
+.download-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.download-button:active {
+  transform: translateY(0);
+}
+
+/* 响应式调整 */
+@media (max-width: 1100px) {
+  .modal-content {
+    flex-direction: column;
+    padding: 20px;
+  }
+  
+  .modal-image-container {
+    width: 100%;
+    height: 70%;
+  }
+  
+  .modal-image {
+    max-width: 90%;
+  }
+  
+  .modal-info {
+    width: 100%;
+    height: 30%;
+    padding: 20px;
+    gap: 12px;
+  }
+  
+  .modal-info h2 {
+    font-size: 1.2rem;
+  }
+  
+  .modal-dimensions {
+    font-size: 0.9rem;
+  }
+  
+  .modal-file-size,
+  .modal-mime-type {
+    font-size: 0.8rem;
+  }
+  
+  .modal-tags h3 {
+    font-size: 1rem;
+  }
+  
+  .tag {
+    font-size: 0.7rem;
+  }
+  
+  .download-button {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    margin-top: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .modal-content {
+    padding: 15px;
+  }
+  
+  .modal-image-container {
+    height: 60%;
+  }
+  
+  .modal-info {
+    height: 40%;
+  }
+  
+  .modal-info h2 {
+    font-size: 1rem;
+  }
+  
+  .modal-dimensions {
+    font-size: 0.8rem;
+  }
+  
+  .modal-file-size,
+  .modal-mime-type {
+    font-size: 0.7rem;
+  }
+  
+  .modal-tags h3 {
+    font-size: 0.9rem;
+  }
+  
+  .tag {
+    font-size: 0.65rem;
+    padding: 3px 10px;
+  }
+  
+  .download-button {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    margin-top: 10px;
+  }
+}

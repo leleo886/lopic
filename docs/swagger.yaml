@@ -1,0 +1,3625 @@
+basePath: /
+definitions:
+  admin_controllers.UpdateStorageRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      storage_name:
+        type: string
+    required:
+    - ids
+    - storage_name
+    type: object
+  admin_services.GetUsersResponse:
+    properties:
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+  admin_services.RoleRequest:
+    properties:
+      allowed_extensions:
+        items:
+          type: string
+        type: array
+      description:
+        type: string
+      gallery_open:
+        type: boolean
+      max_albums_per_user:
+        type: integer
+      max_file_size_mb:
+        type: integer
+      max_files_per_upload:
+        type: integer
+      max_storage_size_mb:
+        type: integer
+      name:
+        type: string
+      storage_name:
+        type: string
+    type: object
+  admin_services.StorageRequest:
+    properties:
+      config:
+        $ref: '#/definitions/models.StorageConfig'
+      name:
+        type: string
+      type:
+        type: string
+    type: object
+  admin_services.UserRequest:
+    properties:
+      active:
+        type: boolean
+      email:
+        type: string
+      password:
+        type: string
+      role:
+        type: string
+      username:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - email
+    - role
+    - username
+    type: object
+  controllers.AddOrDelImageToAlbumRequset:
+    properties:
+      album_id:
+        type: integer
+      ids:
+        items:
+          type: integer
+        type: array
+    required:
+    - album_id
+    - ids
+    type: object
+  controllers.AddOrDelImageToAlbumResponse:
+    properties:
+      error_ids:
+        additionalProperties:
+          type: string
+        type: object
+      success_ids:
+        additionalProperties:
+          type: string
+        type: object
+    type: object
+  controllers.AlbumRequest:
+    properties:
+      description:
+        maxLength: 500
+        type: string
+      gallery_enabled:
+        type: boolean
+      name:
+        maxLength: 100
+        minLength: 1
+        type: string
+      serial_number:
+        type: integer
+    required:
+    - name
+    type: object
+  controllers.LoginRequest:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    required:
+    - password
+    - username
+    type: object
+  controllers.LogoutRequest:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  controllers.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        type: string
+    required:
+    - refresh_token
+    type: object
+  controllers.RegisterRequest:
+    properties:
+      email:
+        type: string
+      password:
+        minLength: 6
+        type: string
+      username:
+        maxLength: 30
+        minLength: 3
+        type: string
+    required:
+    - email
+    - password
+    - username
+    type: object
+  controllers.RequestPasswordResetRequest:
+    properties:
+      email:
+        type: string
+    required:
+    - email
+    type: object
+  controllers.ResetPasswordRequest:
+    properties:
+      code:
+        type: string
+      email:
+        type: string
+      new_password:
+        minLength: 6
+        type: string
+    required:
+    - code
+    - email
+    - new_password
+    type: object
+  controllers.UpdateRequest:
+    properties:
+      ids:
+        items:
+          type: integer
+        type: array
+      original_name:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+    required:
+    - ids
+    type: object
+  controllers.UpdateResponse:
+    properties:
+      error_ids:
+        additionalProperties:
+          type: string
+        type: object
+      success_ids:
+        additionalProperties:
+          $ref: '#/definitions/services.ImageResponse'
+        type: object
+    type: object
+  controllers.UserRequest:
+    properties:
+      password:
+        minLength: 6
+        type: string
+      username:
+        maxLength: 50
+        minLength: 3
+        type: string
+    required:
+    - username
+    type: object
+  github_com_leleo886_lopic_internal_error.ErrorResponse:
+    properties:
+      code:
+        type: string
+      message:
+        type: string
+    type: object
+  models.BackupTask:
+    properties:
+      created_at:
+        type: string
+      end_time:
+        type: string
+      error:
+        type: string
+      id:
+        type: integer
+      size:
+        type: integer
+      start_time:
+        type: string
+      status:
+        type: string
+      storage_path:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.GalleryConfig:
+    properties:
+      backgroundImage:
+        type: string
+      title:
+        type: string
+    type: object
+  models.GeneralConfig:
+    properties:
+      maxThumbSize:
+        type: integer
+      registerEnabled:
+        type: boolean
+    type: object
+  models.MailConfig:
+    properties:
+      enabled:
+        type: boolean
+      serverAddress:
+        type: string
+      smtp:
+        $ref: '#/definitions/models.SMTPConfig'
+    type: object
+  models.RestoreTask:
+    properties:
+      backup_task:
+        $ref: '#/definitions/models.BackupTask'
+      backup_task_id:
+        type: integer
+      created_at:
+        type: string
+      end_time:
+        type: string
+      error:
+        type: string
+      id:
+        type: integer
+      start_time:
+        type: string
+      status:
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.Role:
+    properties:
+      allowed_extensions:
+        items:
+          type: string
+        type: array
+      created_at:
+        type: string
+      description:
+        type: string
+      gallery_open:
+        type: boolean
+      id:
+        type: integer
+      max_albums_per_user:
+        type: integer
+      max_file_size_mb:
+        type: integer
+      max_files_per_upload:
+        type: integer
+      max_storage_size_mb:
+        type: integer
+      name:
+        type: string
+      storage_name:
+        description: 存储配置名称
+        type: string
+      updated_at:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+  models.SMTPConfig:
+    properties:
+      from:
+        type: string
+      fromName:
+        type: string
+      host:
+        type: string
+      password:
+        type: string
+      port:
+        type: integer
+      username:
+        type: string
+    type: object
+  models.Storage:
+    properties:
+      config:
+        $ref: '#/definitions/models.StorageConfig'
+      created_at:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      type:
+        description: local, webdav
+        type: string
+      updated_at:
+        type: string
+    type: object
+  models.StorageConfig:
+    properties:
+      base_path:
+        description: 通用配置
+        type: string
+      base_url:
+        description: WebDAV 特定配置
+        type: string
+      password:
+        type: string
+      static_url:
+        type: string
+      username:
+        type: string
+    type: object
+  models.SystemSettings:
+    properties:
+      gallery:
+        $ref: '#/definitions/models.GalleryConfig'
+      general:
+        $ref: '#/definitions/models.GeneralConfig'
+      mail:
+        $ref: '#/definitions/models.MailConfig'
+    type: object
+  models.User:
+    properties:
+      active:
+        type: boolean
+      created_at:
+        type: string
+      email:
+        type: string
+      id:
+        type: integer
+      image_count:
+        type: integer
+      role:
+        $ref: '#/definitions/models.Role'
+      role_id:
+        type: integer
+      total_size:
+        type: integer
+      updated_at:
+        type: string
+      username:
+        type: string
+    type: object
+  services.AlbumResponse:
+    properties:
+      cover_image:
+        type: string
+      created_at:
+        type: string
+      description:
+        type: string
+      gallery_enabled:
+        type: boolean
+      id:
+        type: integer
+      image_count:
+        type: integer
+      name:
+        type: string
+      serial_number:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+    type: object
+  services.GalleryImageResponse:
+    properties:
+      file_name:
+        type: string
+      file_size:
+        type: integer
+      file_url:
+        type: string
+      height:
+        type: integer
+      mime_type:
+        type: string
+      original_name:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      thumbnail_height:
+        type: integer
+      thumbnail_size:
+        type: integer
+      thumbnail_url:
+        type: string
+      thumbnail_width:
+        type: integer
+      width:
+        type: integer
+    type: object
+  services.GetAlbumImagesResponse:
+    properties:
+      images:
+        items:
+          $ref: '#/definitions/services.ImageResponse'
+        type: array
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+    type: object
+  services.GetAlbumsResponse:
+    properties:
+      albums:
+        items:
+          $ref: '#/definitions/services.AlbumResponse'
+        type: array
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+    type: object
+  services.GetGalleryImagesResponse:
+    properties:
+      images:
+        items:
+          $ref: '#/definitions/services.GalleryImageResponse'
+        type: array
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+    type: object
+  services.GetImagesResponse:
+    properties:
+      images:
+        items:
+          $ref: '#/definitions/services.ImageResponse'
+        type: array
+      page:
+        type: integer
+      page_size:
+        type: integer
+      total:
+        type: integer
+    type: object
+  services.ImageResponse:
+    properties:
+      albums:
+        items:
+          $ref: '#/definitions/services.AlbumResponse'
+        type: array
+      created_at:
+        type: string
+      file_name:
+        type: string
+      file_size:
+        type: integer
+      file_url:
+        type: string
+      height:
+        type: integer
+      id:
+        type: integer
+      mime_type:
+        type: string
+      original_name:
+        type: string
+      storage_name:
+        type: string
+      tags:
+        items:
+          type: string
+        type: array
+      thumbnail_height:
+        type: integer
+      thumbnail_size:
+        type: integer
+      thumbnail_url:
+        type: string
+      thumbnail_width:
+        type: integer
+      updated_at:
+        type: string
+      user_id:
+        type: integer
+      width:
+        type: integer
+    type: object
+  services.LoginResponse:
+    properties:
+      token_response:
+        $ref: '#/definitions/services.TokenResponse'
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  services.StorageUsage:
+    properties:
+      image_count:
+        type: integer
+      total_size:
+        type: integer
+    type: object
+  services.TagCloudItem:
+    properties:
+      count:
+        type: integer
+      tag:
+        type: string
+    type: object
+  services.TokenResponse:
+    properties:
+      access_token:
+        type: string
+      expires_in:
+        type: integer
+      refresh_expires_in:
+        type: integer
+      refresh_token:
+        type: string
+    type: object
+  success.DataResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+    type: object
+  success.SuccessResponse:
+    properties:
+      message:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: RESTful API
+  title: Lopic API
+  version: 1.0.0
+paths:
+  /api/admin/albums:
+    delete:
+      description: 删除指定相册
+      parameters:
+      - description: 相册ID列表
+        in: body
+        name: ids
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除相册，只删除相册与图片的关联信息，不删除图片
+      tags:
+      - 相册管理员
+    get:
+      description: 获取所有相册，支持分页
+      parameters:
+      - description: 页码，默认为1
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量，默认为10
+        in: query
+        name: page_size
+        type: integer
+      - description: 搜索关键词
+        in: query
+        name: searchkey
+        type: string
+      - description: 排序字段，默认为created_at
+        in: query
+        name: orderby
+        type: string
+      - description: 排序方向，asc或desc，默认为desc
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetAlbumsResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有相册列表
+      tags:
+      - 相册管理员
+  /api/admin/albums/{id}:
+    get:
+      description: 获取指定相册的详细信息
+      parameters:
+      - description: 相册ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.AlbumResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取相册详情
+      tags:
+      - 相册管理员
+  /api/admin/backup:
+    post:
+      consumes:
+      - application/json
+      description: 创建系统全量备份
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.BackupTask'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建备份
+      tags:
+      - backup
+  /api/admin/backup/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定的备份
+      parameters:
+      - description: 备份ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除备份
+      tags:
+      - backup
+  /api/admin/backup/download/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 下载指定的备份文件
+      parameters:
+      - description: 备份ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: 备份文件
+          schema:
+            type: file
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 下载备份文件
+      tags:
+      - backup
+  /api/admin/backup/list:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有备份任务列表
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.BackupTask'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取备份列表
+      tags:
+      - backup
+  /api/admin/backup/restore/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除指定的恢复任务记录
+      parameters:
+      - description: 恢复任务ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除恢复任务
+      tags:
+      - backup
+    post:
+      consumes:
+      - application/json
+      description: 从指定备份恢复系统
+      parameters:
+      - description: 备份ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.RestoreTask'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 恢复备份
+      tags:
+      - backup
+  /api/admin/backup/restore/list:
+    get:
+      consumes:
+      - application/json
+      description: 获取所有恢复任务记录
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.RestoreTask'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取恢复记录
+      tags:
+      - backup
+  /api/admin/backup/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 上传备份文件压缩包，上传完成后会添加记录到备份表中，上传逻辑异步
+      parameters:
+      - description: 备份文件压缩包
+        in: formData
+        name: file
+        required: true
+        type: file
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.BackupTask'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 上传备份文件
+      tags:
+      - backup
+  /api/admin/images:
+    delete:
+      description: 删除指定ID的图片
+      parameters:
+      - description: 图片ID
+        in: body
+        name: ids
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.AddOrDelImageToAlbumResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除图片
+      tags:
+      - 图片管理员
+    get:
+      description: 获取所有图片，支持分页和字段值查询
+      parameters:
+      - description: 页码，默认为1
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量，默认为10
+        in: query
+        name: page_size
+        type: integer
+      - description: 搜索关键词
+        in: query
+        name: searchkey
+        type: string
+      - description: 查询字段名
+        in: query
+        name: field
+        type: string
+      - description: 查询字段值
+        in: query
+        name: value
+        type: string
+      - description: 排序字段，默认为created_at
+        in: query
+        name: orderby
+        type: string
+      - description: 排序方向，asc或desc，默认为desc
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.GetImagesResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有图片列表
+      tags:
+      - 图片管理员
+  /api/admin/images/{id}:
+    get:
+      description: 获取指定ID的图片详情
+      parameters:
+      - description: 图片ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.ImageResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取单张图片
+      tags:
+      - 图片管理员
+  /api/admin/images/storagename:
+    put:
+      consumes:
+      - application/json
+      description: 更新指定图片的存储名称
+      parameters:
+      - description: 更新存储名称请求
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/admin_controllers.UpdateStorageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.AddOrDelImageToAlbumResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新图片存储名称
+      tags:
+      - 图片管理员
+  /api/admin/roles:
+    get:
+      description: 获取所有角色，支持分页
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      - description: 搜索关键词
+        in: query
+        name: searchkey
+        type: string
+      - default: created_at
+        description: 排序字段
+        in: query
+        name: orderby
+        type: string
+      - default: desc
+        description: 排序方向
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Role'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取角色列表
+      tags:
+      - 角色管理员
+    post:
+      description: 创建一个新角色
+      parameters:
+      - description: 角色信息
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/admin_services.RoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建角色
+      tags:
+      - 角色管理员
+  /api/admin/roles/{id}:
+    delete:
+      description: 根据ID删除角色
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除角色
+      tags:
+      - 角色管理员
+    get:
+      description: 根据ID获取角色详情
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Role'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取角色详情
+      tags:
+      - 角色管理员
+    put:
+      description: 根据ID更新角色信息
+      parameters:
+      - description: 角色ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 角色信息
+        in: body
+        name: role
+        required: true
+        schema:
+          $ref: '#/definitions/admin_services.RoleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Role'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新角色
+      tags:
+      - 角色管理员
+  /api/admin/roles/users-count:
+    get:
+      description: 获取每个角色下的用户数量
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  additionalProperties:
+                    type: integer
+                  type: object
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取不同角色的用户数量
+      tags:
+      - 角色管理员
+  /api/admin/storages:
+    get:
+      description: 获取所有存储配置，支持分页
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      - description: 搜索关键词
+        in: query
+        name: searchkey
+        type: string
+      - default: created_at
+        description: 排序字段
+        in: query
+        name: orderby
+        type: string
+      - default: desc
+        description: 排序方向
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/models.Storage'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取存储配置列表
+      tags:
+      - 存储管理员
+    post:
+      description: 创建一个新存储配置
+      parameters:
+      - description: 存储配置信息
+        in: body
+        name: storage
+        required: true
+        schema:
+          $ref: '#/definitions/admin_services.StorageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建存储配置
+      tags:
+      - 存储管理员
+  /api/admin/storages/{id}:
+    delete:
+      description: 根据ID删除存储配置
+      parameters:
+      - description: 存储配置ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除存储配置
+      tags:
+      - 存储管理员
+    get:
+      description: 根据ID获取存储配置详情
+      parameters:
+      - description: 存储配置ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Storage'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取存储配置详情
+      tags:
+      - 存储管理员
+    put:
+      description: 根据ID更新存储配置信息
+      parameters:
+      - description: 存储配置ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 存储配置信息
+        in: body
+        name: storage
+        required: true
+        schema:
+          $ref: '#/definitions/admin_services.StorageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/admin_services.StorageRequest'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新存储配置
+      tags:
+      - 存储管理员
+  /api/admin/storages/name/{name}:
+    get:
+      description: 根据存储名称获取存储配置详情
+      parameters:
+      - description: 存储配置名称
+        in: path
+        name: name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.Storage'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 根据名称获取存储配置详情
+      tags:
+      - 存储管理员
+  /api/admin/system/info:
+    get:
+      consumes:
+      - application/json
+      description: 获取系统信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.SystemSettings'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取系统信息
+      tags:
+      - 系统
+    put:
+      consumes:
+      - application/json
+      description: 更新系统信息
+      parameters:
+      - description: 系统信息
+        in: body
+        name: systemSettings
+        required: true
+        schema:
+          $ref: '#/definitions/models.SystemSettings'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新系统信息
+      tags:
+      - 系统
+  /api/admin/users:
+    get:
+      description: 获取所有用户，支持分页
+      parameters:
+      - description: 页码，默认为1
+        in: query
+        name: page
+        type: integer
+      - description: 每页数量，默认为10
+        in: query
+        name: page_size
+        type: integer
+      - description: 搜索关键词
+        in: query
+        name: searchkey
+        type: string
+      - description: 排序字段，默认为created_at
+        in: query
+        name: orderby
+        type: string
+      - description: 排序顺序，asc或desc，默认为desc
+        in: query
+        name: order
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/admin_services.GetUsersResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户列表
+      tags:
+      - 用户管理员
+    post:
+      consumes:
+      - application/json
+      description: 创建新用户
+      parameters:
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/admin_services.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建用户
+      tags:
+      - 用户管理员
+  /api/admin/users/{id}:
+    delete:
+      description: 根据ID删除用户且会删除用户所有关联的相册和图片
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除用户
+      tags:
+      - 用户管理员
+    get:
+      description: 根据ID获取用户信息
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取单个用户
+      tags:
+      - 用户管理员
+    put:
+      consumes:
+      - application/json
+      description: 根据ID更新用户信息
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/admin_services.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.User'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新用户
+      tags:
+      - 用户管理员
+  /api/admin/users/{id}/tags-cloud:
+    get:
+      description: 获取指定用户所有图片的标签云（标签及出现次数）
+      parameters:
+      - description: 用户ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/services.TagCloudItem'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户图片标签云
+      tags:
+      - 用户管理员
+  /api/admin/users/tags-cloud:
+    get:
+      description: 获取所有用户所有图片的标签云（标签及出现次数）
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  items:
+                    $ref: '#/definitions/services.TagCloudItem'
+                  type: array
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取所有用户图片标签云
+      tags:
+      - 用户管理员
+  /api/albums:
+    get:
+      description: 获取当前用户的相册列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetAlbumsResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取相册列表
+      tags:
+      - 相册管理
+    post:
+      consumes:
+      - application/json
+      description: 创建新的相册
+      parameters:
+      - description: 相册信息
+        in: body
+        name: album
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AlbumRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.AlbumResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 创建相册
+      tags:
+      - 相册管理
+  /api/albums/{id}:
+    delete:
+      description: 删除指定的相册（不会删除图片）
+      parameters:
+      - description: 相册ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除相册，只删除相册与图片的关联信息，不删除图片
+      tags:
+      - 相册管理
+    get:
+      description: 获取指定相册的详细信息
+      parameters:
+      - description: 相册ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.AlbumResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取相册详情
+      tags:
+      - 相册管理
+    put:
+      consumes:
+      - application/json
+      description: 更新指定相册的信息
+      parameters:
+      - description: 相册ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 相册信息
+        in: body
+        name: album
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AlbumRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.AlbumResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新相册
+      tags:
+      - 相册管理
+  /api/albums/{id}/images:
+    get:
+      description: 获取指定相册中的所有图片
+      parameters:
+      - description: 相册ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetAlbumImagesResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取相册中的图片
+      tags:
+      - 相册管理
+  /api/albums/images/not-in-any:
+    get:
+      description: 获取所有不在任何相册中的图片
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetAlbumImagesResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取不在任何相册中的图片
+      tags:
+      - 相册管理
+  /api/auth/login:
+    post:
+      consumes:
+      - application/json
+      description: 用户登录获取JWT令牌和刷新令牌
+      parameters:
+      - description: 用户登录信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 登录成功，返回用户信息和访问令牌和刷新令牌
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.LoginResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 用户登录
+      tags:
+      - 认证
+  /api/auth/logout:
+    post:
+      consumes:
+      - application/json
+      description: 将刷新令牌添加到黑名单，防止再次使用
+      parameters:
+      - description: 刷新令牌
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.LogoutRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Logout successful
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 用户登出
+      tags:
+      - 认证
+  /api/auth/refresh:
+    post:
+      consumes:
+      - application/json
+      description: 使用刷新令牌获取新的访问令牌和刷新令牌
+      parameters:
+      - description: 刷新令牌
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RefreshTokenRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 刷新成功，返回新的访问令牌和刷新令牌
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.TokenResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 刷新访问令牌
+      tags:
+      - 认证
+  /api/auth/register:
+    post:
+      consumes:
+      - application/json
+      description: 创建新用户，默认获得user角色
+      parameters:
+      - description: 用户注册信息（默认user角色）
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RegisterRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 用户注册
+      tags:
+      - 认证
+  /api/auth/reset-password:
+    post:
+      consumes:
+      - application/json
+      description: 使用验证码设置新密码
+      parameters:
+      - description: 邮箱、验证码和新密码
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.ResetPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 重置密码
+      tags:
+      - 认证
+  /api/auth/reset-password/request:
+    post:
+      consumes:
+      - application/json
+      description: 发送密码重置邮件
+      parameters:
+      - description: 邮箱地址
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.RequestPasswordResetRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 请求密码重置
+      tags:
+      - 认证
+  /api/auth/verify-email:
+    get:
+      consumes:
+      - application/json
+      description: 使用验证令牌激活用户账号
+      parameters:
+      - description: 验证令牌
+        in: query
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 邮箱验证
+      tags:
+      - 认证
+  /api/gallery/albums/{user_name}:
+    get:
+      description: 获取所有画廊相册
+      parameters:
+      - description: 用户名
+        in: path
+        name: user_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetAlbumsResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 获取所有画廊相册
+      tags:
+      - 画廊
+  /api/gallery/config:
+    get:
+      description: 获取画廊配置数据
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/models.GalleryConfig'
+              type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 获取画廊配置
+      tags:
+      - 画廊
+  /api/gallery/images/{user_name}/{album_id}:
+    get:
+      description: 获取画廊相册图片
+      parameters:
+      - description: 用户名
+        in: path
+        name: user_name
+        required: true
+        type: string
+      - description: 相册ID
+        in: path
+        name: album_id
+        required: true
+        type: integer
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetAlbumImagesResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 获取画廊相册图片
+      tags:
+      - 画廊
+  /api/gallery/search/{user_name}:
+    get:
+      description: 搜索画廊相册图片
+      parameters:
+      - description: 用户名
+        in: path
+        name: user_name
+        required: true
+        type: string
+      - description: 搜索查询
+        in: query
+        name: query
+        required: true
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetGalleryImagesResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      summary: 搜索画廊相册图片
+      tags:
+      - 画廊
+  /api/images:
+    delete:
+      description: 删除指定的图片
+      parameters:
+      - description: 图片ID
+        in: body
+        name: ids
+        required: true
+        schema:
+          items:
+            type: integer
+          type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/controllers.AddOrDelImageToAlbumResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除图片
+      tags:
+      - 图片管理
+    get:
+      description: 获取当前用户的图片列表
+      parameters:
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetImagesResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取图片列表
+      tags:
+      - 图片管理
+    put:
+      consumes:
+      - application/json
+      description: 更新指定图片的信息
+      parameters:
+      - description: 图片信息
+        in: body
+        name: image
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UpdateRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/controllers.UpdateResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新图片
+      tags:
+      - 图片管理
+  /api/images/{id}:
+    get:
+      description: 获取指定图片的详细信息
+      parameters:
+      - description: 图片ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.ImageResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取图片详情
+      tags:
+      - 图片管理
+  /api/images/albums:
+    delete:
+      consumes:
+      - application/json
+      description: 将图片从指定相册移除
+      parameters:
+      - description: 从相册移除图片请求
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AddOrDelImageToAlbumRequset'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/controllers.AddOrDelImageToAlbumResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 从相册移除图片
+      tags:
+      - 图片管理
+    post:
+      consumes:
+      - application/json
+      description: 将图片添加到指定相册
+      parameters:
+      - description: 添加图片到相册请求
+        in: body
+        name: req
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.AddOrDelImageToAlbumRequset'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/controllers.AddOrDelImageToAlbumResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 添加图片到相册
+      tags:
+      - 图片管理
+  /api/images/search:
+    get:
+      description: 标签、标题只提供其一可针对提供值的字段进行模糊搜索，若都提供则对两个值进行模糊搜索
+      parameters:
+      - description: 搜索关键词
+        in: query
+        name: search_key
+        type: string
+      - default: 1
+        description: 页码
+        in: query
+        name: page
+        type: integer
+      - default: 10
+        description: 每页数量
+        in: query
+        name: page_size
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            allOf:
+            - $ref: '#/definitions/success.DataResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/services.GetImagesResponse'
+              type: object
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 标签或标题模糊搜索图片
+      tags:
+      - 图片管理
+  /api/images/upload:
+    post:
+      consumes:
+      - multipart/form-data
+      description: 上传图片文件，@WebSocket /ws/upload "上传进度通知：连接此WebSocket端点获取实时上传进度" @WebSocketEvent
+        upload_start "上传开始：{upload_id, file_name, file_size}" @WebSocketEvent upload_progress
+        "上传进度：{upload_id, file_name, progress, read, total}" @WebSocketEvent upload_complete
+        "上传完成：{upload_id, file_name, file_url, thumbnail_url, image_id}" @WebSocketEvent
+        upload_error "上传错误：{upload_id, file_name, error}"
+      parameters:
+      - collectionFormat: csv
+        description: 图片文件
+        in: formData
+        items:
+          type: file
+        name: file
+        required: true
+        type: array
+      - collectionFormat: csv
+        description: 标签列表
+        in: formData
+        items:
+          type: string
+        name: tags
+        type: array
+      - collectionFormat: csv
+        description: 相册ID列表
+        in: formData
+        items:
+          type: integer
+        name: album_ids
+        type: array
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/success.SuccessResponse'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 批量上传图片
+      tags:
+      - 图片管理
+  /api/users/me:
+    get:
+      description: 获取当前登录用户的信息
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取当前用户信息
+      tags:
+      - 用户查询
+    put:
+      consumes:
+      - application/json
+      description: 更新当前登录用户的信息
+      parameters:
+      - description: 用户信息
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.UserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.User'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 更新当前用户信息
+      tags:
+      - 用户查询
+  /api/users/me/storage:
+    get:
+      description: 获取当前登录用户的存储空间使用情况
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/services.StorageUsage'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取当前用户存储空间使用情况
+      tags:
+      - 用户查询
+  /api/users/me/tags-cloud:
+    get:
+      description: 获取当前登录用户所有图片的标签云（标签及出现次数）
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/services.TagCloudItem'
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/github_com_leleo886_lopic_internal_error.ErrorResponse'
+      security:
+      - ApiKeyAuth: []
+      summary: 获取用户图片标签云
+      tags:
+      - 用户查询
+  /health:
+    get:
+      description: 检查服务是否正常运行
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: 'data={"status": "ok"}'
+          schema:
+            $ref: '#/definitions/success.DataResponse'
+      summary: 健康检查
+      tags:
+      - 系统
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

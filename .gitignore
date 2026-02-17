@@ -1,0 +1,55 @@
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Go workspace file
+go.work
+
+# Dependency directories
+vendor/
+
+# Build output
+lopic
+/dist/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+logs/
+*.log
+
+# Data directory (uploads, database, backups)
+data/
+!data/.gitkeep
+
+# Temporary files
+tmp/
+temp/
+
+# Config files with sensitive data
+configs/config.yaml
+
+# Frontend
+frontend_lopic/node_modules/
+frontend_lopic/dist/
+
+# Trae IDE
+.trae/
