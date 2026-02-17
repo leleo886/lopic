@@ -83,7 +83,7 @@ func (s *AuthService) Register(username, password, email, locale string) (string
 
 	if s.mailService.IsEnabled() {
 		verifyToken := s.generateVerifyToken(email)
-		verifyLink := fmt.Sprintf("%s/api/auth/verify-email?token=%s", s.cfg.SystemSettings.Mail.ServerAddress, verifyToken)
+		verifyLink := fmt.Sprintf("%s/api/auth/verify-email?token=%s", s.mailService.GetServerAddress(), verifyToken)
 		go func() {
 			if err := s.mailService.SendEmailVerification(email, username, verifyLink, locale); err != nil {
 				log.Errorf("failed to send email verification: email=%s, error=%v", email, err)

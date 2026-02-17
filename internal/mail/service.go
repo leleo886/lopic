@@ -17,30 +17,33 @@ import (
 var templatesFS embed.FS
 
 type MailService struct {
-	enabled      bool
-	smtpHost     string
-	smtpPort     int
-	smtpUsername string
-	smtpPassword string
-	from         string
-	fromName     string
+	enabled       bool
+	serverAddress string
+	smtpHost      string
+	smtpPort      int
+	smtpUsername  string
+	smtpPassword  string
+	from          string
+	fromName      string
 }
 
 func NewMailService(cfg *models.MailConfig) *MailService {
 	return &MailService{
-		enabled:      cfg.Enabled,
-		smtpHost:     cfg.SMTP.Host,
-		smtpPort:     cfg.SMTP.Port,
-		smtpUsername: cfg.SMTP.Username,
-		smtpPassword: cfg.SMTP.Password,
-		from:         cfg.SMTP.From,
-		fromName:     cfg.SMTP.FromName,
+		enabled:       cfg.Enabled,
+		serverAddress: cfg.ServerAddress,
+		smtpHost:      cfg.SMTP.Host,
+		smtpPort:      cfg.SMTP.Port,
+		smtpUsername:  cfg.SMTP.Username,
+		smtpPassword:  cfg.SMTP.Password,
+		from:          cfg.SMTP.From,
+		fromName:      cfg.SMTP.FromName,
 	}
 }
 
 // UpdateConfig 更新邮件配置
 func (s *MailService) UpdateConfig(cfg *models.MailConfig) {
 	s.enabled = cfg.Enabled
+	s.serverAddress = cfg.ServerAddress
 	s.smtpHost = cfg.SMTP.Host
 	s.smtpPort = cfg.SMTP.Port
 	s.smtpUsername = cfg.SMTP.Username
@@ -51,6 +54,10 @@ func (s *MailService) UpdateConfig(cfg *models.MailConfig) {
 
 func (s *MailService) GetSMTPPWD() string {
 	return s.smtpPassword
+}
+
+func (s *MailService) GetServerAddress() string {
+	return s.serverAddress
 }
 
 func (s *MailService) IsEnabled() bool {
