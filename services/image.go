@@ -8,6 +8,7 @@ import (
 	_ "image/gif"
 	"image/jpeg"
 	_ "image/jpeg"
+	_ "image/png"
 	"io"
 	"mime/multipart"
 	"os"
@@ -751,6 +752,7 @@ func GetImageDimensions(File *multipart.FileHeader) (string, int, int, error) {
 	defer file.Close()
 
 	fileExt, mimeType, err := GetFileType(File)
+	fmt.Printf("fileExt=%s, mimeType=%s, filename=%s\n", fileExt, mimeType, File.Filename)
 	if err != nil {
 		return "", 0, 0, err
 	}
@@ -769,6 +771,7 @@ func GetImageDimensions(File *multipart.FileHeader) (string, int, int, error) {
 	}
 
 	if err != nil {
+		fmt.Printf("failed to decode image config: fileExt=%s, mimeType=%s, filename=%s, error=%v\n", fileExt, mimeType, File.Filename, err)
 		return "", 0, 0, cerrors.ErrDecodeImage
 	}
 
