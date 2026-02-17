@@ -258,8 +258,10 @@ func (s *AuthService) VerifyEmail(token string) error {
 		return cerrors.ErrUserAlreadyActive
 	}
 
-	result = result.Update("active", true)
-	if result.Error != nil {
+	// 使用明确的数据库操作更新用户状态
+	updateResult := s.db.Model(&models.User{}).Where("id = ?", user.ID).Update("active", true)
+	if updateResult.Error != nil {
+		log.Errorf("failed to activate user: user_id=%d, email=%s, error=%v", user.ID, email, updateResult.Error)
 		return cerrors.ErrCreateUserFailed
 	}
 

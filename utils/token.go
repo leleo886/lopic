@@ -5,12 +5,13 @@ import (
 	"crypto/sha256"
 	"encoding/base64"
 	"fmt"
-	"github.com/leleo886/lopic/internal/log"
-	cerrors "github.com/leleo886/lopic/internal/error"
 	"strconv"
 	"strings"
 	"time"
+
 	"github.com/leleo886/lopic/internal/config"
+	cerrors "github.com/leleo886/lopic/internal/error"
+	"github.com/leleo886/lopic/internal/log"
 )
 
 // HMAC 签名令牌
@@ -63,5 +64,6 @@ func IsTokenExpired(timestamp int64, expirationHours int) bool {
 func generateSignature(data string, secret string) string {
 	h := hmac.New(sha256.New, []byte(secret))
 	h.Write([]byte(data))
-	return base64.StdEncoding.EncodeToString(h.Sum(nil))
+	// 使用 URL 安全的 Base64 编码，避免 + 和 / 在 URL 中引起问题
+	return base64.URLEncoding.EncodeToString(h.Sum(nil))
 }
