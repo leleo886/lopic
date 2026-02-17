@@ -3,6 +3,12 @@
 一个图床画廊管理系统，支持图片上传、管理和画廊展示。
 A system for managing image galleries, supporting image uploads, management, and gallery display.
 
+## 界面预览 Preview
+
+![界面预览1](pics/lopic-1.png)
+![界面预览2](pics/lopic-2.png)
+![界面预览3](pics/lopic-3.png)
+
 ## 存储支持 Storage Support
 - 💾 **本地存储** - **Local Storage**
 - ☁️ **WebDAV 存储** - **WebDAV Storage**
@@ -10,13 +16,13 @@ A system for managing image galleries, supporting image uploads, management, and
 ## Docker 部署 Docker Deployment
 
 ```bash
-# 拉取最新镜像
+# 拉取最新镜像 pull latest image
 docker pull leleo886/lopic:latest
 
-# 运行容器
+# 运行容器 run container
 docker run -d -p 6060:6060 -v lopic_data:/app/data leleo886/lopic:latest
 
-# 或使用 docker-compose
+# 或使用 docker-compose or run with docker-compose
 docker-compose up -d
 ```
 
