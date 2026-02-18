@@ -469,6 +469,9 @@ func (s *BackupService) extractBackup(backupPath string) (string, error) {
 		// 解码文件名，处理不同编码
 		fileName := decodeFilename(file.Name, file.NonUTF8)
 
+		// 统一路径分隔符为正斜杠，确保跨平台兼容
+		fileName = strings.ReplaceAll(fileName, "\\", "/")
+
 		// 安全检查：防止 Zip Slip 攻击
 		// 清理文件名并检查路径遍历
 		cleanName := filepath.Clean(fileName)
@@ -886,7 +889,7 @@ func (s *BackupService) backupFiles(zipWriter *zip.Writer) error {
 			return err
 		}
 
-		header.Name = filepath.Join("uploads", zipPath)
+		header.Name = "uploads/" + strings.ReplaceAll(zipPath, "\\", "/")
 		header.Method = zip.Deflate
 		header.Flags |= 0x800
 
