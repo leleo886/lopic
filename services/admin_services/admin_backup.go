@@ -18,6 +18,7 @@ import (
 	"github.com/leleo886/lopic/internal/log"
 	"github.com/leleo886/lopic/internal/storage"
 	"github.com/leleo886/lopic/models"
+	"golang.org/x/text/encoding/simplifiedchinese"
 	"gorm.io/gorm"
 )
 
@@ -172,19 +173,54 @@ func (s *BackupService) CreateUploadBackupTask(startTime time.Time, file *multip
 		return nil, cerrors.ErrInternalServer
 	}
 
+	// 先保存上传的文件到临时目录，避免 HTTP 请求结束后临时文件被删除
+	tempDir := "data/temp"
+	if err := os.MkdirAll(tempDir, 0755); err != nil {
+		s.db.Delete(task)
+		log.Errorf("Create temp directory failed: %v", err)
+		return nil, cerrors.ErrInternalServer
+	}
+
+	tempFilePath := filepath.Join(tempDir, fmt.Sprintf("upload_%d_%s", task.ID, file.Filename))
+	src, err := file.Open()
+	if err != nil {
+		s.db.Delete(task)
+		log.Errorf("Open uploaded file failed: %v", err)
+		return nil, cerrors.ErrInternalServer
+	}
+	defer src.Close()
+
+	dst, err := os.Create(tempFilePath)
+	if err != nil {
+		s.db.Delete(task)
+		src.Close()
+		log.Errorf("Create temp file failed: %v", err)
+		return nil, cerrors.ErrInternalServer
+	}
+
+	if _, err = io.Copy(dst, src); err != nil {
+		s.db.Delete(task)
+		dst.Close()
+		os.Remove(tempFilePath)
+		log.Errorf("Copy uploaded file to temp failed: %v", err)
+		return nil, cerrors.ErrInternalServer
+	}
+	dst.Close()
+
 	// 启动异步上传任务
-	go func(taskID uint, file *multipart.FileHeader) {
-		if err := s.executeUploadBackup(taskID, file); err != nil {
+	go func(taskID uint, tempFilePath string) {
+		defer os.Remove(tempFilePath) // 处理完成后删除临时文件
+		if err := s.executeUploadBackup(taskID, tempFilePath); err != nil {
 			s.updateTaskStatus(taskID, "failed", err.Error())
 			log.Errorf("UploadBackupTask %d failed: %v", taskID, err)
 		}
-	}(task.ID, file)
+	}(task.ID, tempFilePath)
 
 	return task, nil
 }
 
 // executeUploadBackup 执行上传备份任务
-func (s *BackupService) executeUploadBackup(taskID uint, file *multipart.FileHeader) error {
+func (s *BackupService) executeUploadBackup(taskID uint, tempFilePath string) error {
 	// 更新任务状态为运行中
 	var task models.BackupTask
 	if err := s.db.First(&task, taskID).Error; err != nil {
@@ -207,24 +243,27 @@ func (s *BackupService) executeUploadBackup(taskID uint, file *multipart.FileHea
 	backupFilename := fmt.Sprintf("backup_%s.zip", timestamp)
 	backupPath := filepath.Join(backupDir, backupFilename)
 
-	// 保存上传的文件
-	src, err := file.Open()
-	if err != nil {
-		log.Errorf("Open uploaded file failed: %v", err)
-		return cerrors.ErrInternalServer
-	}
-	defer src.Close()
+	// 移动临时文件到备份目录
+	if err := os.Rename(tempFilePath, backupPath); err != nil {
+		// 如果跨设备移动失败，使用复制+删除
+		src, err := os.Open(tempFilePath)
+		if err != nil {
+			log.Errorf("Open temp file failed: %v", err)
+			return cerrors.ErrInternalServer
+		}
+		defer src.Close()
 
-	dst, err := os.Create(backupPath)
-	if err != nil {
-		log.Errorf("Create backup file failed: %v", err)
-		return cerrors.ErrInternalServer
-	}
-	defer dst.Close()
+		dst, err := os.Create(backupPath)
+		if err != nil {
+			log.Errorf("Create backup file failed: %v", err)
+			return cerrors.ErrInternalServer
+		}
+		defer dst.Close()
 
-	if _, err = io.Copy(dst, src); err != nil {
-		log.Errorf("Copy uploaded file failed: %v", err)
-		return cerrors.ErrInternalServer
+		if _, err = io.Copy(dst, src); err != nil {
+			log.Errorf("Copy backup file failed: %v", err)
+			return cerrors.ErrInternalServer
+		}
 	}
 
 	// 获取文件大小
@@ -394,6 +433,17 @@ func (s *BackupService) executeRestore(taskID uint) error {
 	return nil
 }
 
+// decodeFilename 解码 ZIP 文件名，支持 UTF-8 和 GBK 编码
+func decodeFilename(name string, nonUTF8 bool) string {
+	if nonUTF8 {
+		decoded, err := simplifiedchinese.GBK.NewDecoder().String(name)
+		if err == nil {
+			return decoded
+		}
+	}
+	return name
+}
+
 func (s *BackupService) extractBackup(backupPath string) (string, error) {
 	extractDir, err := os.MkdirTemp("", "restore_*")
 	if err != nil {
@@ -416,13 +466,16 @@ func (s *BackupService) extractBackup(backupPath string) (string, error) {
 	defer zipFile.Close()
 
 	for _, file := range zipFile.File {
+		// 解码文件名，处理不同编码
+		fileName := decodeFilename(file.Name, file.NonUTF8)
+
 		// 安全检查：防止 Zip Slip 攻击
 		// 清理文件名并检查路径遍历
-		cleanName := filepath.Clean(file.Name)
+		cleanName := filepath.Clean(fileName)
 
 		// 拒绝绝对路径和包含 .. 的路径
 		if filepath.IsAbs(cleanName) || strings.Contains(cleanName, "..") {
-			log.Errorf("Zip Slip attack detected: invalid file name %s", file.Name)
+			log.Errorf("Zip Slip attack detected: invalid file name %s", fileName)
 			return "", cerrors.ErrForbidden
 		}
 
@@ -827,7 +880,17 @@ func (s *BackupService) backupFiles(zipWriter *zip.Writer) error {
 			return err
 		}
 
-		zipFile, err := zipWriter.Create(filepath.Join("uploads", zipPath))
+		header, err := zip.FileInfoHeader(info)
+		if err != nil {
+			log.Errorf("Create zip file header failed: %v", err)
+			return err
+		}
+
+		header.Name = filepath.Join("uploads", zipPath)
+		header.Method = zip.Deflate
+		header.Flags |= 0x800
+
+		zipFile, err := zipWriter.CreateHeader(header)
 		if err != nil {
 			log.Errorf("Create zip file failed: %v", err)
 			return err

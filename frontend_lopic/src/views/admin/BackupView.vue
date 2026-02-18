@@ -37,6 +37,29 @@
         </div>
       </div>
 
+      <!-- 上传进度 -->
+      <div class="upload-progress-section" v-if="showProgress">
+        <h3 class="section-title">{{ t('admin.backup.uploadProgress') }}</h3>
+        <div class="progress-container">
+          <div class="progress-header">
+            <span class="progress-file-name">{{ progressStatus.fileName || t('admin.backup.backupFile') }}</span>
+            <span class="progress-status" :class="getProgressStatusClass(progressStatus.status)">
+              {{ getProgressStatusText(progressStatus.status) }}
+            </span>
+          </div>
+          <div class="progress-bar-container">
+            <a-progress 
+              :percent="Math.round(progressStatus.progress || 0)" 
+              :status="getProgressStatus(progressStatus.status)"
+              :format="() => `${Math.round(progressStatus.progress || 0)}%`"
+            />
+          </div>
+          <div class="progress-footer" v-if="progressStatus.error">
+            <span class="progress-error">{{ progressStatus.error }}</span>
+          </div>
+        </div>
+      </div>
+
       <a-tabs v-model:activeKey="activeTab" type="card" size="large">
         <!-- 备份记录 -->
         <a-tab-pane key="backups" :tab="t('admin.backup.backupRecords')">
@@ -174,13 +197,14 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted, watch } from 'vue';
+import { ref, reactive, onMounted, onUnmounted, watch } from 'vue';
 import { message, Modal } from 'ant-design-vue';
 import { systemApi } from '../../api/services';
 import type { BackupTask, RestoreTask } from '../../types/api';
 import { getErrorMessage } from '../../types/errorMessages';
 import { formatFileSize, formatDateTime} from '../../utils/index';
 import { useI18n } from 'vue-i18n';
+import { uploadWebSocketService } from '../../api/websocket';
 
 const { t } = useI18n();
 
@@ -210,6 +234,15 @@ const refreshing = ref(false);
 
 // 激活的标签
 const activeTab = ref('backups');
+
+// 上传进度状态
+const showProgress = ref(false);
+const progressStatus = reactive({
+  progress: 0,
+  status: 'uploading' as 'uploading' | 'completed' | 'error',
+  error: '',
+  fileName: '',
+});
 
 // 备份列表
 const backupList = ref<BackupTask[]>([]);
@@ -354,6 +387,46 @@ const getStatusText = (status: string): string => {
       return t('admin.backup.statusRunning');
     default:
       return status;
+  }
+};
+
+// 获取进度状态类
+const getProgressStatusClass = (status: string) => {
+  switch (status) {
+    case 'uploading':
+      return 'status-uploading';
+    case 'completed':
+      return 'status-completed';
+    case 'error':
+      return 'status-error';
+    default:
+      return '';
+  }
+};
+
+// 获取进度状态文本
+const getProgressStatusText = (status: string) => {
+  switch (status) {
+    case 'uploading':
+      return t('admin.backup.uploading');
+    case 'completed':
+      return t('admin.backup.statusCompleted');
+    case 'error':
+      return t('admin.backup.uploadFailed');
+    default:
+      return status;
+  }
+};
+
+// 获取进度条状态
+const getProgressStatus = (status: string) => {
+  switch (status) {
+    case 'completed':
+      return 'success';
+    case 'error':
+      return 'exception';
+    default:
+      return undefined;
   }
 };
 
@@ -514,18 +587,21 @@ const handleUploadBackup = async (options: any) => {
   
   try {
     uploadingBackup.value = true;
+    showProgress.value = true;
+    
+    // 初始化进度状态
+    progressStatus.progress = 0;
+    progressStatus.status = 'uploading';
+    progressStatus.error = '';
+    progressStatus.fileName = file.name || t('admin.backup.backupFile');
     
     // 创建 FormData 对象
     const formData = new FormData();
     formData.append('file', file);
     
     // 调用上传 API
+    message.info(t('admin.backup.uploadStarted'));
     const response = await systemApi.uploadBackup(formData);
-    
-    message.success(t('admin.backup.uploadBackupSuccess'));
-    
-    // 刷新备份列表
-    fetchBackups();
     
     // 调用成功回调
     if (options.onSuccess) {
@@ -535,6 +611,10 @@ const handleUploadBackup = async (options: any) => {
     const errorCode = error.response?.data?.code;
     const errorMessage = errorCode ? getErrorMessage(errorCode) : t('admin.backup.uploadBackupFailed');
     message.error(errorMessage);
+    
+    // 标记为错误状态
+    progressStatus.status = 'error';
+    progressStatus.error = errorMessage;
     
     // 调用失败回调
     if (options.onError) {
@@ -625,9 +705,44 @@ watch(activeTab, (newTab) => {
   }
 });
 
+// 处理上传进度
+const handleUploadProgress = (data: { upload_id: string; file_name: string; progress: number; read: number; total: number }) => {
+  if (data.upload_id === 'total') {
+    progressStatus.progress = data.progress;
+    // 进度到 100% 时标记为完成
+    if (data.progress >= 100) {
+      progressStatus.status = 'completed';
+      message.success(t('admin.backup.uploadBackupSuccess'));
+      // 刷新备份列表
+      fetchBackups();
+    }
+  }
+};
+
+// 处理上传错误
+const handleUploadError = (data: { upload_id: string; file_name: string; error: string }) => {
+  progressStatus.status = 'error';
+  progressStatus.error = data.error;
+  message.error(`${t('admin.backup.uploadFailed')}: ${data.error}`);
+};
+
 // 初始化
 onMounted(() => {
   fetchBackups();
+  
+  // 注册 WebSocket 事件监听器
+  uploadWebSocketService.on('progress', handleUploadProgress);
+  uploadWebSocketService.on('error', handleUploadError);
+  
+  // 建立 WebSocket 连接
+  uploadWebSocketService.connect();
+});
+
+// 组件卸载时关闭 WebSocket 连接并移除事件监听器
+onUnmounted(() => {
+  uploadWebSocketService.off('progress', handleUploadProgress);
+  uploadWebSocketService.off('error', handleUploadError);
+  uploadWebSocketService.disconnect();
 });
 </script>
 
@@ -670,6 +785,68 @@ onMounted(() => {
 .create-backup-button:hover {
   background-color: var(--primary-dark);
   border-color: var(--primary-dark);
+}
+
+/* 上传进度 */
+.upload-progress-section {
+  margin-bottom: var(--spacing-xl);
+}
+
+.section-title {
+  font-size: var(--font-size-lg);
+  font-weight: 500;
+  color: var(--text-primary);
+  margin: 0 0 var(--spacing-lg) 0;
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.progress-container {
+  padding: var(--spacing-md);
+  background-color: var(--bg-light);
+  border-radius: var(--border-radius-md);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-xs);
+}
+
+.progress-file-name {
+  font-size: var(--font-size-sm);
+  color: var(--text-primary);
+}
+
+.progress-status {
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.status-uploading {
+  color: var(--primary-color);
+}
+
+.status-completed {
+  color: var(--success-color);
+}
+
+.status-error {
+  color: var(--error-color);
+}
+
+.progress-bar-container {
+  margin-bottom: var(--spacing-xs);
+}
+
+.progress-footer {
+  margin-top: var(--spacing-xs);
+}
+
+.progress-error {
+  font-size: var(--font-size-xs);
+  color: var(--error-color);
 }
 
 .tab-content {

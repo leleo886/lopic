@@ -97,6 +97,9 @@ func SetupRouter(config *config.Config,
 		router.GET("/health", controllers.HealthCheck)
 	}
 
+	// 上传进度中间件
+	uploadProgressMiddleware := middleware.NewUploadProgressMiddleware(hub)
+
 	// 前端页面 (从嵌入的文件系统提供)
 	assetsFS, _ := fs.Sub(frontendFS, "dist/assets")
 	router.GET("/assets/*filepath", func(c *gin.Context) {
@@ -185,8 +188,6 @@ func SetupRouter(config *config.Config,
 		// 图片路由
 		imageGroup := apiGroup.Group("/images")
 		{
-			// 上传进度中间件
-			uploadProgressMiddleware := middleware.NewUploadProgressMiddleware(hub)
 			imageGroup.POST("/upload", uploadProgressMiddleware.Handle(), imageController.UploadImage)
 			imageGroup.GET("", imageController.GetImages)
 			imageGroup.GET("/:id", imageController.GetImage)
@@ -263,7 +264,7 @@ func SetupRouter(config *config.Config,
 				adminBackupGroup.POST("/restore/:id", backupController.RestoreBackup)
 				adminBackupGroup.DELETE("/restore/:id", backupController.DeleteRestoreTask)
 				adminBackupGroup.GET("/download/:id", backupController.DownloadBackup)
-				adminBackupGroup.POST("/upload", backupController.UploadBackup)
+				adminBackupGroup.POST("/upload", uploadProgressMiddleware.Handle(), backupController.UploadBackup)
 			}
 
 			adminStorageGroup := adminGroup.Group("/storages")

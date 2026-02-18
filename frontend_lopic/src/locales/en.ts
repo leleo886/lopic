@@ -176,6 +176,10 @@ export default {
       deleteBackupFailed: 'Failed to delete backup, please try again later',
       deleteRestoreFailed: 'Failed to delete restore task, please try again later',
       refreshFailed: 'Failed to refresh data, please try again later',
+      uploadProgress: 'Upload Progress',
+      uploading: 'Uploading...',
+      uploadFailed: 'Upload failed',
+      uploadStarted: 'Upload started',
     },
     images: {
       searchPlaceholder: 'Search image name or tags',

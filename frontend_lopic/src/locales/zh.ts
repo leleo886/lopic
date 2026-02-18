@@ -176,6 +176,10 @@ export default {
       deleteBackupFailed: '删除备份失败，请稍后重试',
       deleteRestoreFailed: '删除恢复任务失败，请稍后重试',
       refreshFailed: '刷新数据失败，请稍后重试',
+      uploadProgress: '上传进度',
+      uploading: '上传中...',
+      uploadFailed: '上传失败',
+      uploadStarted: '上传已开始',
     },
     images: {
       searchPlaceholder: '搜索图片名称标签',
