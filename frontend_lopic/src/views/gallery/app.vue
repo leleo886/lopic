@@ -30,12 +30,13 @@
             <div class="search-section">
               <SearchOutlined class="search-icon" />
               <input 
+                type="search"
                 class="console-search" 
                 placeholder="搜索标题或标签" 
                 v-model="searchQuery"
                 @focus="activateSearch"
                 @blur="deactivateSearch"
-                @keyup.enter="handleSearch"
+                @keydown.enter.prevent="handleSearch"
               />
               <button v-if="searchQuery" class="clear-search" @click="clearSearch">×</button>
             </div>
