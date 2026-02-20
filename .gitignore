@@ -21,6 +21,8 @@ vendor/
 lopic
 /dist/
 
+docs/
+
 # IDE
 .idea/
 .vscode/
